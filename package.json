@@ -1,0 +1,20 @@
+{
+  "name": "football-api",
+  "private": true,
+  "scripts": {
+    "prettify": "pprettier \"**/*.{ru,rb,yaml,json}\" --ignore-path=\".gitignore\"",
+    "lint": "npm run prettify -- --check",
+    "lint:openapi": "speccy lint -j openapi/openapi.y*ml",
+    "format": "npm run prettify -- --write",
+    "preinstall": "([ \"$CI\" != true ] && npm-force-resolutions) || :"
+  },
+  "devDependencies": {
+    "@invisionag/prettier-config-ivx": "^3.0.1",
+    "@mixer/parallel-prettier": "^2.0.1",
+    "@prettier/plugin-ruby": "^2.0.0",
+    "npm-force-resolutions": "^0.0.10",
+    "prettier": "^2.5.1",
+    "speccy": "^0.11.0"
+  },
+  "prettier": "@invisionag/prettier-config-ivx"
+}
