@@ -1,9 +1,6 @@
 require './lib/app'
 require 'rack/test'
 require 'rspec'
-require 'database_cleaner-sequel'
-require 'oj'
-require 'json'
 
 RSpec.describe 'app' do
   include Rack::Test::Methods
@@ -13,11 +10,14 @@ RSpec.describe 'app' do
   end
 
   describe 'GET /' do
+    
     it 'return 200' do
+      get '/'
       expect(last_response.status).to eq(200)
     end
     it ' return Welcome to the League!' do
-      expect(last_response.body).to eq('Welcome to the League!')
+      get '/'
+      expect(last_response.body).to eq('Welcome to the Football API!')
     end
   end
 end

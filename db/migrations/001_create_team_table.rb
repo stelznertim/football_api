@@ -5,9 +5,8 @@ Sequel.migration do
   up do
     create_table(:teams) do
       primary_key :team_id, null: false
-      String :name, null: false
-      String :league, null: false
-      Array :players
+      column :name, String, null: false
+      column :league, String, null: false
     end
   end
   down do
