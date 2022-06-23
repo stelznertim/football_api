@@ -3,8 +3,7 @@
 require_relative '../../lib/models/team'
 
 FactoryBot.define do
-  factory :team do
-    sequence(:team_id)
+  factory Team do
     name { 'Mock Team Name' }
     league { 'Super League' }
   end

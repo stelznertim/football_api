@@ -1,16 +1,14 @@
 require './lib/app'
 require 'rack/test'
 require 'rspec'
+require 'spec_helper'
 
 RSpec.describe 'app' do
-  include Rack::Test::Methods
-
   def app
     Sinatra::Application
   end
 
   describe 'GET /' do
-    
     it 'return 200' do
       get '/'
       expect(last_response.status).to eq(200)
