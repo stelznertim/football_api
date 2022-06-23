@@ -1,12 +1,6 @@
 ---
 version: '3'
 services:
-  # app:
-  # build: .
-  # links:
-  #   - postgres
-  # environment:
-  #   - POSTGRES_URL="postgres://postgres:postgres@localhost:5432/booklist"
   postgres:
     environment:
       - POSTGRES_PASSWORD=postgres

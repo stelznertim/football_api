@@ -1,53 +1,53 @@
-openapi: '3.0.1'
-info:
-  title: Football API
-  version: 0.0.1
-servers:
-  - url: http://localhost:4567.com
-paths:
-  /teams/{team_id}:
-    get:
-      description: Get a football team by id.
-      parameters:
-        - in: path
-          name: team_id
-          required: true
-          schema:
-            type: string
-            format: uuid
-      responses:
-        200:
-          description: A footbal team
-          content:
-            appplication/json:
-              schema:
-                title: Generated schema for Root
-                type: object
-                properties:
-                  teamId:
-                    type: string
-                  name:
-                    type: string
-                  league:
-                    type: string
-                  players:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/player'
-                required:
-                  - teamId
-                  - name
-                  - league
+# openapi: '3.0.1'
+# info:
+#   title: Football API
+#   version: 0.0.1
+# servers:
+#   - url: http://localhost:4567.com
+# paths:
+#   /teams/{team_id}:
+#     get:
+#       description: Get a football team by id.
+#       parameters:
+#         - in: path
+#           name: team_id
+#           required: true
+#           schema:
+#             type: string
+#             format: uuid
+#       responses:
+#         200:
+#           description: A footbal team
+#           content:
+#             appplication/json:
+#               schema:
+#                 title: Generated schema for Root
+#                 type: object
+#                 properties:
+#                   teamId:
+#                     type: string
+#                   name:
+#                     type: string
+#                   league:
+#                     type: string
+#                   players:
+#                     type: array
+#                     items:
+#                       $ref: '#/components/schemas/player'
+#                 required:
+#                   - teamId
+#                   - name
+#                   - league
 
-components:
-  schemas:
-    player:
-      type: object
-      properties:
-        name:
-          type: string
-        age:
-          type: number
-      required:
-        - name
-        - age
+# components:
+#   schemas:
+#     player:
+#       type: object
+#       properties:
+#         name:
+#           type: string
+#         age:
+#           type: number
+#       required:
+#         - name
+#         - age

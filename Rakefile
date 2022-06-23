@@ -1,7 +1,7 @@
 require 'rake'
 require 'sequel'
 
-DATABASE = "booklist_#{ENV.fetch('RACK_ENV', 'test')}".freeze
+DATABASE = "football_api_#{ENV.fetch('RACK_ENV', 'test')}".freeze
 
 def connect_string
   "postgres://postgres:postgres@localhost:5432/#{DATABASE}"
