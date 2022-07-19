@@ -20,4 +20,19 @@ class TeamController < Sinatra::Application
     team = Team.find(id:)
     Oj.dump({ id: team.id, type: 'team', name: team.name, league: team.league })
   end
+
+  post '/' do
+    team = Team.new(json_params)
+
+    halt 422 unless team.save({ raise_on_failure: false })
+    response.headers['Location'] = "/teams/#{team.id}"
+    status 201
+    Oj.dump({ id: team.id, type: 'team', name: team.name, league: team.league })
+  end
+
+  def json_params
+    JSON.parse(request.body.read)
+  rescue JSON::ParserError # kleinstes scope nutzen zum fehler abfangen JSON::ParserError
+    halt 400, { message: 'Invalid JSON' }.to_json
+  end
 end
