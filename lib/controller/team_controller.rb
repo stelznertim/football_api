@@ -15,9 +15,9 @@ class TeamController < Sinatra::Application
   end
 
   get '/:id' do |id|
-    halt 404 unless Team.find(id:)
-    status 201
     team = Team.find(id:)
+    halt 404, { message: 'Team not found' } unless team
+    status 201
     Oj.dump({ id: team.id, type: 'team', name: team.name, league: team.league })
   end
 
@@ -30,9 +30,25 @@ class TeamController < Sinatra::Application
     Oj.dump({ id: team.id, type: 'team', name: team.name, league: team.league })
   end
 
+  patch '/:id' do |id|
+    team = Team.find(id:)
+    halt 404, { message: 'Team not found' } unless team
+    status 200
+    new_attributes = json_params
+    team.name = new_attributes['name'] unless new_attributes[:name].nil?
+    team.league = new_attributes['league'] unless new_attributes[:league].nil?
+    Oj.dump({ id: team.id, type: 'team', name: team.name, league: team.league })
+  end
+
   def json_params
     JSON.parse(request.body.read)
   rescue JSON::ParserError # kleinstes scope nutzen zum fehler abfangen JSON::ParserError
     halt 400, { message: 'Invalid JSON' }.to_json
   end
+
+  def halt_if_not_found
+    halt(404, { message: 'Team Not Found' }.to_json)
+  end
 end
+
+

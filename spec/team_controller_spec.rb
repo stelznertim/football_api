@@ -55,8 +55,7 @@ RSpec.describe TeamController do
     end
   end
 
-  describe 'POST teams/' do
-
+  describe 'POST /teams' do
     let(:team_one) { create(:team, name: 'SV Hafen Rostock', league: 'Landesliga') }
     let(:team_object) { { type: 'team', name: team_one.name, league: team_one.league } }
 
@@ -76,6 +75,29 @@ RSpec.describe TeamController do
         post '/teams', invalid_request_body.to_json
         expect(last_response.status).to eq(422)
         # expect(last_response.error).to include('Wrong request body format.')
+      end
+    end
+  end
+
+  describe 'PATCH /teams/:id' do
+    let!(:team) { create(:team) }
+    let(:team_object) { { type: 'team', name: team.name, league: team.league } }
+    let(:id) { team.id }
+    context 'with valid params' do
+      let(:request_body) { { name: 'SG Olympia Leipzig', league: 'Landesliga' } }
+      it ' returns 201 and updates team' do
+        patch "/teams/#{id}", request_body.to_json
+        expect(last_response.status).to eq(200)
+        expect(Oj.load(last_response.body, symbol_keys: true)).to include(team_object)
+      end
+    end
+
+    context 'with invalid params' do
+      let(:request_body) { { food: 'Hot Dog' } }
+      it 'returns 422' do
+        patch "/teams/#{id}", request_body.to_json
+        expect(last_response.status).to eq(200)
+        expect(Oj.load(last_response.body, symbol_keys: true)).to include(team.values)
       end
     end
   end
