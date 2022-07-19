@@ -1,3 +1,7 @@
+
+
+require 'oj'
+require 'json'
 require_relative 'spec_helper'
 require_relative '../lib/app'
 require_relative '../lib/controller/team_controller'
@@ -51,23 +55,49 @@ RSpec.describe TeamController do
     end
   end
 
-  describe 'POST teams/' do
-    let(:team_object) { { id: team_one.id, type: 'team', name: request_body.name, league: team_one.league } }
+  describe 'POST /teams' do
+    let(:team_one) { create(:team, name: 'SV Hafen Rostock', league: 'Landesliga') }
+    let(:team_object) { { type: 'team', name: team_one.name, league: team_one.league } }
+
     let(:request_body) { { name: 'SV Hafen Rostock', league: 'Landesliga' } }
     let(:invalid_request_body) { { name: 'SV Hafen Rostock' } }
     context 'with correct request_body' do
       it 'returns 201 & team object' do
-        post '/', request_body
-        expect(last_response.body).to eq(team_object)
+        post '/teams', request_body.to_json
         expect(last_response.status).to eq(201)
+        expect(Oj.load(last_response.body, symbol_keys: true)).to include(team_object)
       end
     end
 
     context 'with invalid request_body' do
       it 'returns 422 and error message' do
-        post '/', invalid_request_body
+
+        post '/teams', invalid_request_body.to_json
         expect(last_response.status).to eq(422)
         # expect(last_response.error).to include('Wrong request body format.')
+      end
+    end
+  end
+
+  describe 'PATCH /teams/:id' do
+    let!(:team) { create(:team) }
+    let(:team_object) { { type: 'team', name: team.name, league: team.league } }
+    let(:id) { team.id }
+    context 'with valid params' do
+      let(:request_body) { { name: 'SG Olympia Leipzig', league: 'Landesliga' } }
+      it ' returns 201 and updates team' do
+        patch "/teams/#{id}", request_body.to_json
+        expect(last_response.status).to eq(200)
+        expect(Oj.load(last_response.body, symbol_keys: true)).to include(team_object)
+      end
+    end
+
+    context 'with invalid params' do
+      let(:request_body) { { food: 'Hot Dog' } }
+      it 'returns 422' do
+        patch "/teams/#{id}", request_body.to_json
+        expect(last_response.status).to eq(200)
+        expect(Oj.load(last_response.body, symbol_keys: true)).to include(team.values)
       end
     end
   end
