@@ -11,5 +11,5 @@ Sequel.migration do
       column :league, String, null: false
     end
   end
-  down { drop_table(:books) }
+  down { drop_table(:teams) }
 end
