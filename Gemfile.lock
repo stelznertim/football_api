@@ -1,10 +1,15 @@
 GEM
+  specs:
+
+GEM
   remote: https://gems.ivx.cloud/
   specs:
     racklog (0.10.12)
       bundler
       ougai
       rack
+    rubocop-config-ivx (2.0.4)
+      rubocop (>= 0.60.0)
 
 GEM
   remote: https://rubygems.org/
@@ -84,6 +89,8 @@ GEM
       unicode-display_width (>= 1.4.0, < 3.0)
     rubocop-ast (1.18.0)
       parser (>= 3.1.1.0)
+    rubocop-rspec (2.11.1)
+      rubocop (~> 1.19)
     ruby-progressbar (1.11.0)
     ruby2_keywords (0.0.5)
     sequel (5.53.0)
@@ -121,23 +128,26 @@ PLATFORMS
   x86_64-darwin-20
 
 DEPENDENCIES
-  database_cleaner-sequel
-  dotenv
-  factory_bot
-  faker
-  pg
-  pry
-  rack-test
+  database_cleaner-sequel!
+  dotenv!
+  factory_bot!
+  faker!
+  pg!
+  pry!
+  rack-test!
   racklog!
-  rake
-  rspec
-  rubocop
-  sequel
-  simplecov
-  sinatra
-  sinatra-contrib
-  super_diff
-  thin
+  rake!
+  rspec!
+  rspec-core!
+  rubocop!
+  rubocop-config-ivx!
+  rubocop-rspec!
+  sequel!
+  simplecov!
+  sinatra!
+  sinatra-contrib!
+  super_diff!
+  thin!
 
 BUNDLED WITH
    2.3.7

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'pg'
 require 'sequel'
 
@@ -9,7 +11,5 @@ Sequel.migration do
       column :league, String, null: false
     end
   end
-  down do
-    drop_table(:books)
-  end
+  down { drop_table(:books) }
 end
