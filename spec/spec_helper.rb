@@ -26,7 +26,7 @@ RSpec.configure do |config|
   config.before(:suite) do
     DatabaseCleaner.strategy = :transaction
     DatabaseCleaner.clean_with(:truncation)
-    FactoryBot.define { to_create { |i| i.save } }
+    FactoryBot.define { to_create(&:save) }
     FactoryBot.find_definitions
     FactoryBot::Evaluator.include RSpec::Mocks::ExampleMethods
   end

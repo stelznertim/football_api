@@ -1,7 +1,10 @@
+# frozen_string_literal: true
+
 require 'sinatra/base'
 require 'oj'
 require_relative '../models/team'
 
+# Manages the endpoints for the teams
 class TeamController < Sinatra::Application
   after do
     content_type 'application/json'
@@ -16,8 +19,8 @@ class TeamController < Sinatra::Application
 
   get '/:id' do |id|
     team = Team.find(id:)
-    halt 404, { message: 'Team not found' } unless team
-    status 201
+    halt_if_not_found unless team
+    status 200
     Oj.dump({ id: team.id, type: 'team', name: team.name, league: team.league })
   end
 
@@ -32,12 +35,18 @@ class TeamController < Sinatra::Application
 
   patch '/:id' do |id|
     team = Team.find(id:)
-    halt 404, { message: 'Team not found' } unless team
+    halt_if_not_found unless team
     status 200
     new_attributes = json_params
     team.name = new_attributes['name'] unless new_attributes[:name].nil?
     team.league = new_attributes['league'] unless new_attributes[:league].nil?
     Oj.dump({ id: team.id, type: 'team', name: team.name, league: team.league })
+  end
+
+  delete '/:id' do |id|
+    team = Team.find(id:)
+    team&.destroy
+    status 204
   end
 
   def json_params
@@ -50,5 +59,3 @@ class TeamController < Sinatra::Application
     halt(404, { message: 'Team Not Found' }.to_json)
   end
 end
-
-
