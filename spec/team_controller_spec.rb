@@ -11,29 +11,31 @@ RSpec.describe TeamController do
   end
 
   describe 'GET /teams' do
-    let!(:team_one) { create(:team) }
-    let!(:team_two) { create(:team) }
-    let(:expected_teams_arr) do
-      Oj.dump(
-        [
-          {
-            id: team_one.id,
-            type: 'team',
-            name: team_one.name,
-            league: team_one.league,
-          },
-          {
-            id: team_two.id,
-            type: 'team',
-            name: team_two.name,
-            league: team_two.league,
-          },
-        ],
-      )
-    end
-    it 'returns all team objects' do
-      get '/teams'
-      expect(last_response.body).to eq(expected_teams_arr)
+    context 'with teams in the db' do
+      let!(:team_one) { create(:team) }
+      let!(:team_two) { create(:team) }
+      let(:expected_teams_arr) do
+        Oj.dump(
+          [
+            {
+              id: team_one.id,
+              type: 'team',
+              name: team_one.name,
+              league: team_one.league
+            },
+            {
+              id: team_two.id,
+              type: 'team',
+              name: team_two.name,
+              league: team_two.league
+            }
+          ]
+        )
+      end
+      it 'returns all team objects' do
+        get '/teams'
+        expect(last_response.body).to eq(expected_teams_arr)
+      end
     end
 
     context 'with no team in the db' do
@@ -52,8 +54,8 @@ RSpec.describe TeamController do
           id: team_one.id,
           type: 'team',
           name: team_one.name,
-          league: team_one.league,
-        },
+          league: team_one.league
+        }
       )
     end
     let!(:team_one) { create(:team) }
@@ -88,7 +90,7 @@ RSpec.describe TeamController do
       post '/teams', request_body.to_json
       expect(last_response.status).to eq(201)
       expect(Oj.load(last_response.body, symbol_keys: true)).to include(
-        team_object,
+        team_object
       )
     end
 
@@ -110,7 +112,7 @@ RSpec.describe TeamController do
       patch "/teams/#{id}", request_body.to_json
       expect(last_response.status).to eq(200)
       expect(Oj.load(last_response.body, symbol_keys: true)).to include(
-        team_object,
+        team_object
       )
     end
 
@@ -120,7 +122,7 @@ RSpec.describe TeamController do
         patch "/teams/#{id}", request_body.to_json
         expect(last_response.status).to eq(200)
         expect(Oj.load(last_response.body, symbol_keys: true)).to include(
-          team.values,
+          team.values
         )
       end
     end
